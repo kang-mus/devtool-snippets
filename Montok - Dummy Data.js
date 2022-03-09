@@ -132,8 +132,8 @@ $scope.$apply(function () {
                 "NotifOrderRefund": 0,
                 "NotifOrderRefundNewAt": 0,
                 "NotifChat": 32,
-                "NotifChatNewAt": get_date(-((0 * 60) + 1)),
-                "NotifChatLastAt": get_date(-((0 * 60) + 1)),
+                "NotifChatNewAt": get_date(-((1 * 60) + 24)),
+                "NotifChatLastAt": get_date(-((1 * 60) + 24)),
                 "NotifComment": 0,
                 "NotifCommentNewAt": get_date(-((0 * 60) + 1)),
                 "NotifCommentLastAt": get_date(-((0 * 60) + 1)),
@@ -340,6 +340,32 @@ $scope.$apply(function () {
         "bot_is_running": true,
         "open_browser_profile": null
     }
+
+
+    function timeout() {
+        if( $scope.__looping_timeout ){
+            // Looping timeout reset
+            clearTimeout($scope.__looping_timeout);
+        }
+
+        $scope.__looping_timeout = setTimeout(function () {
+            // Do Something Here
+            // Then recall the parent function to
+            // create a recursive loop.
+
+            for (var i = $scope.listProfiles.length - 1; i >= 0; i--) {
+                $scope.listProfiles[i].LastUpdate = get_date(-((0 * 60) + 0));
+                $scope.listProfiles[i].LastCheck = get_date(-((0 * 60) + 0));
+                // console.log("Set last update:", $scope.listProfiles[i].StoreName, $scope.listProfiles[i].LastUpdate)
+            }
+
+            timeout();
+        }, 6000);
+        // Bot diperbarui per menit, dengan lastUpdate 0 menit yang lalu (a few seconds ago)
+    }
+
+    timeout()
+
     $scope.listProfiles = res.data.map($scope.sort_data_profile)
     $scope.botIsRunning = res.bot_is_running
 });
