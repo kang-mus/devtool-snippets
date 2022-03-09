@@ -360,8 +360,8 @@ $scope.$apply(function () {
             }
 
             timeout();
-        }, 6000);
-        // Bot diperbarui per menit, dengan lastUpdate 0 menit yang lalu (a few seconds ago)
+        }, 60 * 1000);
+        // Bot diperbarui per 60 detik, dengan lastUpdate 0 menit yang lalu (a few seconds ago)
     }
 
     timeout()
